@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'ContactList.dart';
+import 'GroupedContacts.dart';
 
 class ContactSearch extends StatefulWidget {
   final contacts;
@@ -86,32 +87,7 @@ class _ContactSearchState extends State<ContactSearch> {
               ),
             ),
             ContactList(entries: entries),
-            Container(
-              height: 100.0,
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.green[200]),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      color: Colors.teal,
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(
-                      'Leonard',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
+            GroupedContacts()
           ],
         ),
       ),

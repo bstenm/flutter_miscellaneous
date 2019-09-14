@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'state/selectedContacts.dart';
 
 class ContactList extends StatelessWidget {
   ContactList({
@@ -10,7 +13,8 @@ class ContactList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(entries);
+    final selectedContacts = Provider.of<SelectedContacts>(context);
+
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
@@ -36,9 +40,16 @@ class ContactList extends StatelessWidget {
                 itemCount: entries[entry].length,
                 physics: ClampingScrollPhysics(),
                 itemBuilder: (BuildContext ctx, int index) {
+                  String contact = entries[entry][index];
+
                   return ListTile(
-                    title: Text(entries[entry][index]),
-                    trailing: Icon(Icons.add),
+                    title: Text(contact),
+                    trailing: GestureDetector(
+                      child: Icon(Icons.add),
+                      onTap: () {
+                        selectedContacts.add(contact);
+                      },
+                    ),
                   );
                 },
               ),

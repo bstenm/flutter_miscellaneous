@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'ContactSearch.dart';
+import 'state/selectedContacts.dart';
 
 const contacts = <String>[
   'Adi Shamir',
@@ -23,12 +25,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      builder: (_) => SelectedContacts(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: ContactSearch(contacts: contacts),
       ),
-      home: ContactSearch(contacts: contacts),
     );
   }
 }

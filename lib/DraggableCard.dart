@@ -12,7 +12,7 @@ class DraggableCard extends StatefulWidget {
 class _DraggableCardState extends State<DraggableCard>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Alignment _dragAlignment = Alignment.center;
+  // Alignment _dragAlignment = Alignment.center;
 
   @override
   void initState() {
@@ -34,7 +34,8 @@ class _DraggableCardState extends State<DraggableCard>
     return GestureDetector(
       onPanUpdate: (details) {
         setState(() {
-          _dragAlignment += Alignment(
+          // _dragAlignment += Alignment(
+          Alignment(
             details.delta.dx / (size.width / 2),
             details.delta.dy / (size.height / 2),
           );
