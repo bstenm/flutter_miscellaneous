@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
-  final TextEditingController editingController = TextEditingController();
   final filterContacts;
+  final TextEditingController controller;
 
-  SearchBox({this.filterContacts});
+  SearchBox({
+    Key key,
+    @required this.controller,
+    @required this.filterContacts,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('Building Search Box');
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        onChanged: (value) {
-          filterContacts(value);
-        },
-        controller: editingController,
-        decoration: InputDecoration(
-          hintText: 'Search',
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(15.0),
-            ),
-          ),
+    return TextField(
+      controller: controller,
+      autofocus: true,
+      decoration: InputDecoration(
+        prefixIcon: Icon(
+          Icons.search,
+          color: Colors.white,
         ),
+        hintText: 'Search...',
+        border: InputBorder.none,
+        hintStyle: TextStyle(color: Colors.white),
       ),
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 16.0,
+      ),
+      onChanged: filterContacts,
     );
   }
 }

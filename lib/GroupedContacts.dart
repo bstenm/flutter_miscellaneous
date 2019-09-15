@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'state/selectedContacts.dart';
 
 class GroupedContacts extends StatelessWidget {
-  const GroupedContacts({
+  GroupedContacts({
     Key key,
   }) : super(key: key);
 

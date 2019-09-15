@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cookbook/SearchBox.dart';
 
 import 'ContactList.dart';
 import 'GroupedContacts.dart';
@@ -15,9 +16,10 @@ class ContactSearch extends StatefulWidget {
 }
 
 class _ContactSearchState extends State<ContactSearch> {
-  TextEditingController editingController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
-  Map entries = {};
+  Map _entries = {};
+  bool _searchOn = false;
   Map sortedContacts = {};
 
   Map sortListAlphabetically(List<String> list) {
@@ -35,16 +37,17 @@ class _ContactSearchState extends State<ContactSearch> {
   @override
   void initState() {
     sortedContacts = sortListAlphabetically(widget.contacts);
-    entries.addAll(sortedContacts);
+    _entries.addAll(sortedContacts);
     super.initState();
   }
 
   void filterContacts(String searchTerm) {
-    var matches = List<String>();
+    List<String> matches = List<String>();
+
     if (searchTerm.isEmpty) {
       setState(() {
-        entries.clear();
-        entries.addAll(sortedContacts);
+        _entries.clear();
+        _entries.addAll(sortedContacts);
       });
       return;
     }
@@ -56,8 +59,8 @@ class _ContactSearchState extends State<ContactSearch> {
     });
 
     setState(() {
-      entries.clear();
-      entries.addAll(sortListAlphabetically(matches));
+      _entries.clear();
+      _entries.addAll(sortListAlphabetically(matches));
     });
   }
 
@@ -65,29 +68,44 @@ class _ContactSearchState extends State<ContactSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact Search'),
+        title: _searchOn
+            ? SearchBox(
+                controller: searchController,
+                filterContacts: filterContacts,
+              )
+            : Text('My Contacts'),
+        actions: <Widget>[
+          Visibility(
+            visible: _searchOn,
+            child: IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                setState(() {
+                  _entries.clear();
+                  _entries.addAll(sortedContacts);
+                  _searchOn = false;
+                });
+              },
+            ),
+          ),
+          Visibility(
+            visible: !_searchOn,
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  _searchOn = true;
+                });
+              },
+            ),
+          )
+        ],
       ),
       body: Container(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: filterContacts,
-                controller: editingController,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50.0),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            ContactList(entries: entries),
-            GroupedContacts()
+            ContactList(entries: _entries),
+            GroupedContacts(),
           ],
         ),
       ),
