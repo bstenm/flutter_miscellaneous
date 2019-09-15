@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'state/selectedContacts.dart';
 
 class ContactList extends StatelessWidget {
   ContactList({
     Key key,
     @required this.entries,
+    @required this.onSelect,
+    @required this.selectDisabled,
   }) : super(key: key);
 
   final Map entries;
+  final bool selectDisabled;
+  final Function onSelect;
 
   @override
   Widget build(BuildContext context) {
-    final selectedContacts = Provider.of<SelectedContacts>(context);
-
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
@@ -46,9 +45,12 @@ class ContactList extends StatelessWidget {
                     title: Text(contact),
                     trailing: IconButton(
                       icon: Icon(Icons.add),
-                      onPressed: () {
-                        selectedContacts.add(contact);
-                      },
+                      disabledColor: Colors.white,
+                      onPressed: selectDisabled
+                          ? null
+                          : () {
+                              onSelect(contact);
+                            },
                     ),
                   );
                 },

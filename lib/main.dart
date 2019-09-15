@@ -2,22 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'ContactSearch.dart';
-import 'state/selectedContacts.dart';
-
-const contacts = <String>[
-  'Adi Shamir',
-  'Alan Kay',
-  'Andrew Yao',
-  'Barbara Liskov',
-  'Kristen Nygaard',
-  'Leonard Adleman',
-  'Leslie Lamport',
-  'Ole-Johan Dahl',
-  'Peter Naur',
-  'Robert E. Kahn',
-  'Ronald L. Rivest',
-  'Vinton G. Cerf',
-];
+import 'state/ContactListState.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,13 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      builder: (_) => SelectedContacts(),
+      builder: (_) => ContactListState(),
       child: MaterialApp(
         title: 'Contact Listing',
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
-        home: ContactSearch(contacts: contacts),
+        home: ContactSearch(),
       ),
     );
   }

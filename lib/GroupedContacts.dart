@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'state/selectedContacts.dart';
+import 'state/ContactListState.dart';
 
 class GroupedContacts extends StatelessWidget {
   GroupedContacts({
@@ -10,10 +10,10 @@ class GroupedContacts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedContacts = Provider.of<SelectedContacts>(context);
+    final contactList = Provider.of<ContactListState>(context);
 
     return Visibility(
-      visible: selectedContacts.selected.length > 0,
+      visible: contactList.selected.length > 0,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -24,7 +24,7 @@ class GroupedContacts extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Wrap(
-              children: selectedContacts.selected.map((contact) {
+              children: contactList.selected.map((contact) {
                 return Container(
                   padding: EdgeInsets.all(5.0),
                   margin: EdgeInsets.all(5.0),
@@ -58,7 +58,7 @@ class GroupedContacts extends StatelessWidget {
                     color: Colors.black54,
                   ),
                   onPressed: () {
-                    selectedContacts.empty();
+                    contactList.clearSelected();
                   },
                 ),
                 FlatButton.icon(

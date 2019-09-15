@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cookbook/SearchBox.dart';
+import 'package:provider/provider.dart';
 
 import 'ContactList.dart';
 import 'GroupedContacts.dart';
-import 'utils/sortListAlphabetically.dart';
+import 'state/ContactListState.dart';
 
 class ContactSearch extends StatefulWidget {
-  final contacts;
   ContactSearch({
     Key key,
-    @required this.contacts,
   }) : super(key: key);
 
   @override
@@ -19,48 +18,18 @@ class ContactSearch extends StatefulWidget {
 class _ContactSearchState extends State<ContactSearch> {
   TextEditingController _searchController = TextEditingController();
 
-  Map _entries = {};
   bool _searchOn = false;
-  Map _sortedContacts = {};
-
-  @override
-  void initState() {
-    _sortedContacts = sortListAlphabetically(widget.contacts);
-    _entries.addAll(_sortedContacts);
-    super.initState();
-  }
-
-  void filterContacts(String searchTerm) {
-    List<String> matches = List<String>();
-
-    if (searchTerm.isEmpty) {
-      setState(() {
-        _entries.clear();
-        _entries.addAll(_sortedContacts);
-      });
-      return;
-    }
-
-    widget.contacts.forEach((contact) {
-      if (contact.toLowerCase().contains(searchTerm.toLowerCase())) {
-        matches.add(contact);
-      }
-    });
-
-    setState(() {
-      _entries.clear();
-      _entries.addAll(sortListAlphabetically(matches));
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final _contactList = Provider.of<ContactListState>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: _searchOn
             ? SearchBox(
                 controller: _searchController,
-                filterContacts: filterContacts,
+                filterContacts: _contactList.filterByTerm,
               )
             : Text('My Contacts'),
         actions: <Widget>[
@@ -69,9 +38,8 @@ class _ContactSearchState extends State<ContactSearch> {
                   icon: Icon(Icons.clear),
                   onPressed: () {
                     _searchController.clear();
+                    _contactList.reset();
                     setState(() {
-                      _entries.clear();
-                      _entries.addAll(_sortedContacts);
                       _searchOn = false;
                     });
                   },
@@ -89,8 +57,12 @@ class _ContactSearchState extends State<ContactSearch> {
       body: Container(
         child: Column(
           children: <Widget>[
-            ContactList(entries: _entries),
-            GroupedContacts(),
+            ContactList(
+              entries: _contactList.entries,
+              onSelect: _contactList.select,
+              selectDisabled: _searchOn,
+            ),
+            _searchOn ? Container() : GroupedContacts(),
           ],
         ),
       ),
