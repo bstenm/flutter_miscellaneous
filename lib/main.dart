@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       builder: (_) => SelectedContacts(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Contact Listing',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.teal,
         ),
         home: ContactSearch(contacts: contacts),
       ),

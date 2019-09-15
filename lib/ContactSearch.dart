@@ -50,7 +50,7 @@ class _ContactSearchState extends State<ContactSearch> {
     }
 
     widget.contacts.forEach((contact) {
-      if (contact.contains(searchTerm)) {
+      if (contact.toLowerCase().contains(searchTerm.toLowerCase())) {
         matches.add(contact);
       }
     });
@@ -80,7 +80,7 @@ class _ContactSearchState extends State<ContactSearch> {
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
+                      Radius.circular(50.0),
                     ),
                   ),
                 ),

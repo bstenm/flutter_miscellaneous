@@ -5,6 +5,11 @@ class SelectedContacts with ChangeNotifier {
 
   List<String> get selected => _selected;
 
+  void empty() {
+    _selected.clear();
+    notifyListeners();
+  }
+
   void add(String name) {
     if (_selected.contains(name)) {
       return;

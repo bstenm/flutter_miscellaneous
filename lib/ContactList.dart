@@ -44,9 +44,9 @@ class ContactList extends StatelessWidget {
 
                   return ListTile(
                     title: Text(contact),
-                    trailing: GestureDetector(
-                      child: Icon(Icons.add),
-                      onTap: () {
+                    trailing: IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
                         selectedContacts.add(contact);
                       },
                     ),
