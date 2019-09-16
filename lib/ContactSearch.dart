@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'ContactList.dart';
 import 'GroupedContacts.dart';
+import 'ScrollControlButtons.dart';
 import 'state/ContactListState.dart';
 
 class ContactSearch extends StatefulWidget {
@@ -16,9 +17,17 @@ class ContactSearch extends StatefulWidget {
 }
 
 class _ContactSearchState extends State<ContactSearch> {
-  TextEditingController _searchController = TextEditingController();
+  bool _searchOn;
+  ScrollController _scrollController;
+  TextEditingController _searchController;
 
-  bool _searchOn = false;
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _searchController = TextEditingController();
+    _searchOn = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +66,17 @@ class _ContactSearchState extends State<ContactSearch> {
       body: Container(
         child: Column(
           children: <Widget>[
+            _searchOn
+                ? Container()
+                : ScrollControlButtons(
+                    entries: _contactList.entries,
+                    scrollController: _scrollController,
+                  ),
             ContactList(
               entries: _contactList.entries,
               onSelect: _contactList.select,
               selectDisabled: _searchOn,
+              scrollController: _scrollController,
             ),
             _searchOn ? Container() : GroupedContacts(),
           ],

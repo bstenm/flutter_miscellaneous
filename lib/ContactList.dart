@@ -6,17 +6,20 @@ class ContactList extends StatelessWidget {
     @required this.entries,
     @required this.onSelect,
     @required this.selectDisabled,
+    @required this.scrollController,
   }) : super(key: key);
 
   final Map entries;
   final bool selectDisabled;
   final Function onSelect;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
+        controller: scrollController,
         itemCount: entries.keys.length,
         itemBuilder: (context, index) {
           String entry = entries.keys.toList()[index];

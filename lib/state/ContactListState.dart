@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../utils/sortListAlphabetically.dart';
+import '../utils/groupByFirstLetter.dart';
 
 class ContactListState with ChangeNotifier {
   final _contacts = <String>[
@@ -10,18 +10,34 @@ class ContactListState with ChangeNotifier {
     'Kristen Nygaard',
     'Leonard Adleman',
     'Leslie Lamport',
+    'Kristen Nygaard',
+    'Leonard Adleman',
+    'Leslie Lamport',
+    'Kristen Nygaard',
+    'Leonard Adleman',
+    'Leslie Lamport',
+    'Kristen Nygaard',
+    'Leonard Adleman',
+    'Leslie Lamport',
     'Ole-Johan Dahl',
     'Peter Naur',
     'Robert E. Kahn',
     'Ronald L. Rivest',
     'Vinton G. Cerf',
+    'Xenathon',
+    'Xenathon',
+    'Xenathon',
+    'Xenathon',
+    'To',
+    'To',
   ];
   Map _entries = {};
   List _selected = List<String>();
   Map _sortedContacts = {};
 
   ContactListState() {
-    _sortedContacts = sortListAlphabetically(_contacts);
+    _contacts.sort();
+    _sortedContacts = groupByFirstLetter(_contacts);
     _entries.addAll(_sortedContacts);
   }
 
@@ -66,7 +82,7 @@ class ContactListState with ChangeNotifier {
     });
 
     _entries.clear();
-    _entries.addAll(sortListAlphabetically(matches));
+    _entries.addAll(groupByFirstLetter(matches));
     notifyListeners();
   }
 }
