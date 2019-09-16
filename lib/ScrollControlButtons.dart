@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 
 class ScrollControlButtons extends StatelessWidget {
+  final Map _entries;
+  final List<Map> groupByPosition = List<Map>();
+  final ScrollController _scrollController;
+
   ScrollControlButtons({
     Key key,
     @required entries,
     @required scrollController,
   })  : _entries = entries,
         _scrollController = scrollController,
-        super(key: key);
-
-  final Map _entries;
-  final ScrollController _scrollController;
-
-  @override
-  Widget build(BuildContext context) {
+        super(key: key) {
     List keys = _entries.keys.toList()..sort();
     double position = 0.0;
-    List<Map> withPos = List<Map>();
 
+    // build new data structure with physical position as key
     keys.forEach((k) {
       Map e = Map();
       e['groupId'] = k;
       e['position'] = position;
-      withPos.add(e);
+      groupByPosition.add(e);
       position += 35.0 + (_entries[k].length * 56.0);
     });
+  }
 
-    List<Widget> _buildButtons() {
-      return withPos.map((entry) {
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: groupByPosition.map((entry) {
         return Container(
           margin: EdgeInsets.all(5.0),
           width: 40.0,
@@ -43,9 +44,7 @@ class ScrollControlButtons extends StatelessWidget {
             },
           ),
         );
-      }).toList();
-    }
-
-    return Wrap(children: _buildButtons());
+      }).toList(),
+    );
   }
 }

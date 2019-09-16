@@ -66,19 +66,23 @@ class _ContactSearchState extends State<ContactSearch> {
       body: Container(
         child: Column(
           children: <Widget>[
-            _searchOn
-                ? Container()
-                : ScrollControlButtons(
-                    entries: _contactList.entries,
-                    scrollController: _scrollController,
-                  ),
+            Visibility(
+              visible: !_searchOn,
+              child: ScrollControlButtons(
+                entries: _contactList.entries,
+                scrollController: _scrollController,
+              ),
+            ),
             ContactList(
               entries: _contactList.entries,
               onSelect: _contactList.select,
               selectDisabled: _searchOn,
               scrollController: _scrollController,
             ),
-            _searchOn ? Container() : GroupedContacts(),
+            Visibility(
+              visible: !_searchOn,
+              child: GroupedContacts(),
+            ),
           ],
         ),
       ),
