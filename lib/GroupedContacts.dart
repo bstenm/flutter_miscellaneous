@@ -78,7 +78,9 @@ class GroupedContacts extends StatelessWidget {
                           FlatButton.icon(
                             icon: Icon(Icons.send),
                             label: Text('Send'),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           )
                         ],
                         content: TextField(

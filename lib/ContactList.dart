@@ -42,6 +42,7 @@ class ContactList extends StatelessWidget {
                   String contact = entries[entry][index];
 
                   return ListTile(
+                    onTap: () {},
                     title: Text(contact),
                     trailing: IconButton(
                       icon: Icon(Icons.add),
